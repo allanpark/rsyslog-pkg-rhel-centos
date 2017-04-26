@@ -212,6 +212,13 @@ Group: System Environment/Daemons
 Requires: %name = %version-%release
 Requires: libksi1 >= 3.4.0.0
 BuildRequires: libksi1-devel
+
+%package ksi_ls12
+Summary: KSI version 1.2 signature support
+Group: System Environment/Daemons
+Requires: %name = %version-%release
+Requires: libksi >= 3.13.0.0
+BuildRequires: libksi-devel
 %endif
 
 %description
@@ -335,6 +342,11 @@ for the producer and 3 million msgs/second for the consumer.
 %description ksi
 The KSI signature plugin provides access to the Keyless Signature Infrastructure 
 globally distributed by Guardtime. 
+
+%description ksi_ls12
+The KSI(TM) log signature module enables efficient signing of log records with
+Guardtime KSI blockchain. This package produces log signatures version 1.2. For
+more, see https://guardtime.com/technology/blockchain-developers
 %endif
 
 %prep
@@ -367,6 +379,7 @@ export LDFLAGS="-pie -Wl,-z,relro -Wl,-z,now"
                 --enable-omkafka \
 	        --enable-usertools \
 		--enable-gt-ksi \
+		--enable-ksi-ls12 \
 	%if 0%{?rhel} >= 7
 			--enable-imjournal \
 			--enable-omjournal \
@@ -627,6 +640,10 @@ mv /var/lock/subsys/rsyslogd /var/lock/subsys/rsyslog
 %files ksi
 %defattr(-,root,root)
 %{_libdir}/rsyslog/lmsig_ksi.so
+
+%files ksi_ls12
+%defattr(-,root,root)
+%{_libdir}/rsyslog/lmsig_ksi_ls12.so
 %endif
 
 %changelog
